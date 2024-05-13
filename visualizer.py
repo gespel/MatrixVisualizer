@@ -5,6 +5,7 @@ import numpy as np
 import csv
 import matplotlib.pyplot as plt
 import glob
+from tqdm import tqdm
 import contextlib
 import logging
 from PIL import Image
@@ -38,13 +39,12 @@ class MatrixVisualizer:
             out.append(m)
 
         logging.info('Rendering frame images...')
-        for x in range(0, len(out), 20):
-            plt.imshow(out[x], cmap='plasma', interpolation='nearest')
+        for x in tqdm(range(0, len(out), 20), unit="frames"):
+            plt.imshow(out[x], cmap='hot', interpolation='nearest')
             plt.colorbar()
 
             plt.savefig(f'tmp/{x}.png', dpi=300)
             plt.close()
-            logging.info(f"{x/len(out)*100}%")
 
 
         logging.info('Rendering GIF...')
@@ -55,8 +55,8 @@ class MatrixVisualizer:
 
         images = []
 
-        for path in image_paths:
-            images.append(Image.open(path))
+        for i in range(0, len(image_paths)):
+            images.append(Image.open(image_paths[i]))
 
         images[0].save(fp=fp_out, format='GIF', append_images=images[1:],
                     save_all=True, duration=20, loop=0)
