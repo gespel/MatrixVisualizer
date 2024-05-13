@@ -23,9 +23,9 @@ class MatrixVisualizer:
         os.mkdir("tmp")
         logging.info('Parsing File...')
         out = []
-        for matrix in Matrices:
+        for i in tqdm(range(0, len(Matrices)), unit="matrix"):
             m = []
-            matrixLines = matrix.split("\n")
+            matrixLines = Matrices[i].split("\n")
             
             for matrixLine in matrixLines:
                 tmp = []
@@ -39,7 +39,7 @@ class MatrixVisualizer:
             out.append(m)
 
         logging.info('Rendering frame images...')
-        for x in tqdm(range(0, len(out), 20), unit="frames"):
+        for x in tqdm(range(0, len(out), 20), unit="frame"):
             plt.imshow(out[x], cmap='hot', interpolation='nearest')
             plt.colorbar()
 
