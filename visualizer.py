@@ -1,4 +1,5 @@
 import os
+import sys
 import shutil
 import numpy as np
 import csv
@@ -38,11 +39,12 @@ class MatrixVisualizer:
 
         logging.info('Rendering frame images...')
         for x in range(0, len(out), 20):
-            plt.imshow(out[x], cmap='copper', interpolation='nearest')
+            plt.imshow(out[x], cmap='plasma', interpolation='nearest')
             plt.colorbar()
 
             plt.savefig(f'tmp/{x}.png', dpi=300)
             plt.close()
+            logging.info(f"{x/len(out)*100}%")
 
 
         logging.info('Rendering GIF...')
@@ -60,6 +62,6 @@ class MatrixVisualizer:
                     save_all=True, duration=20, loop=0)
         logging.info('Cleaning up...')
         shutil.rmtree("tmp")
-
+filename = sys.argv[1]
 mv = MatrixVisualizer()
-mv.visualize("BTCS_48_48_5000.csv")
+mv.visualize(filename)
